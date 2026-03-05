@@ -1,16 +1,9 @@
--- ============================================================
--- SMART GYM MANAGEMENT SYSTEM
--- performance.sql - Index Performance Testing (3 Indexes)
--- ============================================================
 -- This file demonstrates performance improvement through
 -- 3 strategic indexes using EXPLAIN ANALYZE
--- ============================================================
 
--- ============================================================
 -- TEST 1: PAYMENT HISTORY BY USER AND DATE RANGE
 -- Business Case: Generate billing reports for members
 -- Index: idx_payments_user_date (composite)
--- ============================================================
 
 -- Drop the index if it exists (to simulate "before indexing")
 DROP INDEX IF EXISTS idx_payments_user_date;
@@ -72,12 +65,10 @@ ORDER BY p.payment_date DESC;
 -- Real-world: 100,000 payments → 50ms becomes 2ms
 
 
--- ============================================================
 -- TEST 2: ATTENDANCE LOOKUP BY TIMESTAMP
 -- Business Case: Staff needs to find who checked in during
 -- a specific time range for attendance verification
 -- Index: idx_attendance_checkin (single-column)
--- ============================================================
 
 -- Drop the index if it exists
 DROP INDEX IF EXISTS idx_attendance_checkin;
@@ -141,12 +132,10 @@ ORDER BY a.check_in_time DESC;
 -- Performance gain scales with table size
 
 
--- ============================================================
 -- TEST 3: CLASS AVAILABILITY SEARCH BY DATE AND TIME
 -- Business Case: Members search for available classes on
 -- a specific date, results must be sorted by time
 -- Index: idx_schedules_date_time (composite)
--- ============================================================
 
 -- Drop the index if it exists
 DROP INDEX IF EXISTS idx_schedules_date_time;
@@ -238,53 +227,3 @@ ORDER BY cs.schedule_date, cs.start_time;
 -- The sort operation cost is eliminated entirely
 
 
--- ============================================================
--- SUMMARY OF PERFORMANCE IMPROVEMENTS
--- ============================================================
--- Test 1: Payment history by user and date
---   Before: Full table scan with filter
---   After:  Composite index on (user_id, payment_date)
---   Improvement: 70-90% faster (critical for billing reports)
---   Key Benefit: Backward index scan supports ORDER BY DESC
---
--- Test 2: Attendance lookup by timestamp
---   Before: Sequential scan through all attendance records
---   After:  B-tree index scan on check_in_time
---   Improvement: 40-60% faster (scales with data volume)
---   Key Benefit: Fast range scans for time-based queries
---
--- Test 3: Class schedule search by date/time
---   Before: Sequential scan + filter + sort operation
---   After:  Composite index scan (pre-sorted)
---   Improvement: 50-70% faster + eliminates sort
---   Key Benefit: Pre-sorted results, no separate sort needed
--- ============================================================
-
--- ============================================================
--- ADDITIONAL NOTES ON INDEX STRATEGY
--- ============================================================
--- 1. Index Selection Criteria:
---    - Columns frequently used in WHERE clauses
---    - Columns involved in ORDER BY
---    - Composite indexes for common query patterns
---    - High-selectivity attributes (user_id, timestamps)
---
--- 2. Composite Index Column Order:
---    - Most selective column first (user_id before date)
---    - Supports leftmost prefix rule
---    - Order matters for query optimization
---
--- 3. Performance Considerations:
---    - Indexes slightly slow INSERT/UPDATE/DELETE
---    - Trade-off acceptable for read-heavy operations
---    - Our application: ~90% reads, ~10% writes
---
--- 4. Monitoring:
---    - Use: SELECT * FROM pg_stat_user_indexes;
---    - Track: Index usage, scan counts, cache hits
---    - Adjust: Remove unused indexes, add new as needed
--- ============================================================
-
--- ============================================================
--- END OF PERFORMANCE TESTING
--- ============================================================
