@@ -61,13 +61,16 @@ def create_app():
         raise
     
     # Register blueprints
-    from app.auth import auth_bp, init_db_pool
+    from app.auth import auth_bp, init_db_pool as auth_init_pool
+    from app.routes.members import members_bp, init_db_pool as members_init_pool
     
-    # Initialize database pool in auth module
-    init_db_pool(db_pool)
+    # Initialize database pool in modules
+    auth_init_pool(db_pool)
+    members_init_pool(db_pool)
     
-    # Register auth blueprint with URL prefix
+    # Register blueprints with URL prefixes
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
+    app.register_blueprint(members_bp, url_prefix='/api/v1/members')
     
     # Root endpoint
     @app.route('/')
