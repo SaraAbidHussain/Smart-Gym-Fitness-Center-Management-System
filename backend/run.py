@@ -1,25 +1,27 @@
-from app import create_app
-from app.db import get_connection, release_connection
+"""
+Application Entry Point
+Run this file to start the Flask development server
+"""
 
+from app import create_app
+import os
+
+# Create Flask app
 app = create_app()
 
-@app.route("/test-db")
-def test_db():
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT version();")
-        version = cursor.fetchone()
-
-        cursor.close()
-        release_connection(conn)
-
-        return {"database": "connected", "version": version[0]}
-
-    except Exception as e:
-        return {"error": str(e)}
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    # Get port from environment or use 5000
+    port = int(os.getenv('PORT', 5000))
+    
+    # Run development server
+    print(f"\n🚀 Starting Smart Gym API on http://localhost:{port}")
+    print(f"📚 API Documentation: http://localhost:{port}/api/docs (coming soon)")
+    print(f"🏥 Health Check: http://localhost:{port}/health")
+    print(f"🔐 Auth Endpoints: http://localhost:{port}/api/v1/auth")
+    print("\nPress CTRL+C to stop the server\n")
+    
+    app.run(
+        host='0.0.0.0',
+        port=port,
+        debug=True  # Set to False in production
+    )

@@ -1,0 +1,47 @@
+*.db
+*.sqlite
+*.sqlite3
+pgdata/
+postgres-data/
+/database/*.dump
+/database/backup/
+
+# Python (for Phase 2)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env
+.env.local
+# OS files
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+.directory
+
+# Credentials & Config
+config.ini
+secrets.json
+credentials.json
+*.key
+*.pem
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
