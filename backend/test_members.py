@@ -23,7 +23,7 @@ def get_member_token():
     # Use existing test member from seed data
     response = requests.post(f"{BASE_URL}/auth/login", json={
         "email": "ahmed.khan@gmail.com",  # From seed.sql
-        "password": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIxnE6"
+        "password": "$2b$12$/YucUdbGVq3pDbAUN91VuOHL/NAJrtGUtKd5SuAc4sPkBEhiLNCjy"
     })
     
     # If doesn't work, try with test user
