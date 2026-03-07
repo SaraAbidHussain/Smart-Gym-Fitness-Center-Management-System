@@ -65,16 +65,20 @@ def create_app():
     from app.routes.members import members_bp, init_db_pool as members_init_pool
     from app.routes.payments import payments_bp
     from app.routes.classes import classes_bp
-    
+    from app.routes.trainers import trainers_bp
+    from app.routes.staff import staff_bp
+
     # Initialize database pool in modules
     auth_init_pool(db_pool)
     members_init_pool(db_pool)
-    
+
     # Register blueprints with URL prefixes
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(members_bp, url_prefix='/api/v1/members')
     app.register_blueprint(payments_bp, url_prefix='/api/v1/payments')
     app.register_blueprint(classes_bp, url_prefix='/api/v1/classes')
+    app.register_blueprint(trainers_bp, url_prefix='/api/v1/trainers')
+    app.register_blueprint(staff_bp, url_prefix='/api/v1/staff')
     
     # Root endpoint
     @app.route('/')
