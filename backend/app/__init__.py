@@ -67,10 +67,15 @@ def create_app():
     from app.routes.classes import classes_bp
     from app.routes.trainers import trainers_bp
     from app.routes.staff import staff_bp
+    from app.routes.admin import admin_bp, init_db_pool as admin_init_pool
+    from app.routes.general import general_bp, init_db_pool as general_init_pool
+    
 
     # Initialize database pool in modules
     auth_init_pool(db_pool)
     members_init_pool(db_pool)
+    admin_init_pool(db_pool)
+    general_init_pool(db_pool)
 
     # Register blueprints with URL prefixes
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
@@ -79,6 +84,8 @@ def create_app():
     app.register_blueprint(classes_bp, url_prefix='/api/v1/classes')
     app.register_blueprint(trainers_bp, url_prefix='/api/v1/trainers')
     app.register_blueprint(staff_bp, url_prefix='/api/v1/staff')
+    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
+    app.register_blueprint(general_bp, url_prefix='/api/v1')
     
     # Root endpoint
     @app.route('/')
