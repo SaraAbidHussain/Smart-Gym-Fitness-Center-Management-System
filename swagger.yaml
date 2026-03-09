@@ -1,0 +1,754 @@
+openapi: 3.0.0
+info:
+  title: Smart Gym Management API
+  description: |
+    Complete REST API for Smart Gym & Fitness Center Management System.
+    
+    Features:
+    - JWT-based authentication
+    - Role-based access control (Member, Trainer, Staff, Admin)
+    - ACID-compliant transactions
+    - Real-time class booking with capacity management
+    - Comprehensive analytics and reporting
+    
+    **Tech Stack:**
+    - Backend: Python Flask
+    - Database: PostgreSQL
+    - Auth: JWT + bcrypt
+    
+  version: 1.0.0
+  contact:
+    name: Smart Gym Team
+    email: admin@smartgym.com
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+  - url: https://api.smartgym.com/api/v1
+    description: Production server (when deployed)
+
+tags:
+  - name: Authentication
+    description: User registration and login
+  - name: Members
+    description: Member-specific operations (requires member role)
+  - name: Trainers
+    description: Trainer operations (requires trainer role)
+  - name: Staff
+    description: Staff operations (requires staff role)
+  - name: Admin
+    description: Administrative operations (requires admin role)
+  - name: Public
+    description: Public endpoints (no authentication required)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /auth/login endpoint
+  
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          example: john.doe@gym.com
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        phone:
+          type: string
+          example: "0300-1234567"
+        role:
+          type: string
+          enum: [member, trainer, staff, admin]
+          example: member
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-01"
+        gender:
+          type: string
+          enum: [male, female, other]
+          example: male
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+    
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: Invalid credentials
+        details:
+          type: string
+    
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+    
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 50
+        total_pages:
+          type: integer
+          example: 3
+
+paths:
+  # ==================== AUTHENTICATION ====================
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Create a new user account with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - first_name
+                - last_name
+                - role
+              properties:
+                email:
+                  type: string
+                  example: john.doe@gym.com
+                password:
+                  type: string
+                  minLength: 8
+                  example: SecurePass123
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                phone:
+                  type: string
+                  example: "0300-1234567"
+                role:
+                  type: string
+                  enum: [member, trainer, staff, admin]
+                  example: member
+                date_of_birth:
+                  type: string
+                  format: date
+                  example: "1990-01-01"
+                gender:
+                  type: string
+                  enum: [male, female, other]
+                  example: male
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User registered successfully
+                  user_id:
+                    type: integer
+                    example: 25
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: Authenticate user and receive JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: john.doe@gym.com
+                password:
+                  type: string
+                  example: SecurePass123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGc...
+                  user:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      role:
+                        type: string
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ==================== MEMBERS ====================
+  /members/dashboard:
+    get:
+      tags:
+        - Members
+      summary: Get member dashboard
+      description: Returns comprehensive stats from database view
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Dashboard data retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  dashboard:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      full_name:
+                        type: string
+                      email:
+                        type: string
+                      membership_tier:
+                        type: string
+                      membership_status:
+                        type: string
+                      total_visits:
+                        type: integer
+                      confirmed_bookings:
+                        type: integer
+                      total_calories_burned:
+                        type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - member role required
+
+  /members/membership:
+    get:
+      tags:
+        - Members
+      summary: Get active membership
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Active membership details
+        '404':
+          description: No active membership found
+
+  /members/bookings:
+    get:
+      tags:
+        - Members
+      summary: Get class bookings
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [confirmed, waitlist, cancelled, attended]
+        - name: upcoming
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: List of bookings
+
+  /members/book-class:
+    post:
+      tags:
+        - Members
+      summary: Book a class
+      description: Book a class (trigger handles capacity/waitlist automatically)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schedule_id
+              properties:
+                schedule_id:
+                  type: integer
+                  example: 7
+      responses:
+        '201':
+          description: Class booked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  booking:
+                    type: object
+                    properties:
+                      booking_id:
+                        type: integer
+                      status:
+                        type: string
+                      position_in_waitlist:
+                        type: integer
+                        nullable: true
+        '409':
+          description: Already booked
+
+  /members/bookings/{booking_id}:
+    delete:
+      tags:
+        - Members
+      summary: Cancel booking
+      description: Cancel a class booking (auto-promotes waitlist)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Booking cancelled
+        '404':
+          description: Booking not found
+
+  /members/workouts:
+    get:
+      tags:
+        - Members
+      summary: Get workout logs
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: List of workout logs
+    
+    post:
+      tags:
+        - Members
+      summary: Log a workout
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - exercise_name
+              properties:
+                workout_date:
+                  type: string
+                  format: date
+                exercise_name:
+                  type: string
+                  example: Bench Press
+                muscle_group:
+                  type: string
+                  example: Chest
+                sets:
+                  type: integer
+                  example: 3
+                reps:
+                  type: integer
+                  example: 8
+                weight_kg:
+                  type: number
+                  example: 60.0
+                duration_minutes:
+                  type: integer
+                calories_burned:
+                  type: integer
+                difficulty:
+                  type: string
+                  enum: [easy, moderate, hard]
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Workout logged successfully
+
+  /members/profile:
+    get:
+      tags:
+        - Members
+      summary: Get profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile
+    
+    put:
+      tags:
+        - Members
+      summary: Update profile
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                phone:
+                  type: string
+                date_of_birth:
+                  type: string
+                  format: date
+                gender:
+                  type: string
+      responses:
+        '200':
+          description: Profile updated
+
+  # ==================== ADMIN ====================
+  /admin/users:
+    get:
+      tags:
+        - Admin
+      summary: List all users
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [member, trainer, staff, admin]
+        - name: is_active
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Users list with pagination
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    
+    post:
+      tags:
+        - Admin
+      summary: Create new user
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+
+  /admin/users/{user_id}:
+    put:
+      tags:
+        - Admin
+      summary: Update user
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: User updated
+    
+    delete:
+      tags:
+        - Admin
+      summary: Deactivate user
+      description: Soft delete (sets is_active = false)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deactivated
+
+  /admin/revenue:
+    get:
+      tags:
+        - Admin
+      summary: Get revenue analytics
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Revenue breakdown
+
+  /admin/analytics:
+    get:
+      tags:
+        - Admin
+      summary: Get system analytics
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Comprehensive system statistics
+
+  /admin/memberships:
+    get:
+      tags:
+        - Admin
+      summary: List all memberships
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: tier_id
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Memberships list
+
+  /admin/equipment-health:
+    get:
+      tags:
+        - Admin
+      summary: Equipment health report
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Equipment health data from view
+
+  # ==================== PUBLIC ====================
+  /classes:
+    get:
+      tags:
+        - Public
+      summary: Get all class types
+      description: No authentication required
+      responses:
+        '200':
+          description: List of class types
+
+  /classes/schedule:
+    get:
+      tags:
+        - Public
+      summary: Get class schedules
+      description: View upcoming class schedules (no auth required)
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+        - name: class_id
+          in: query
+          schema:
+            type: integer
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of scheduled classes
+
+  /membership-tiers:
+    get:
+      tags:
+        - Public
+      summary: Get membership tiers
+      description: View pricing and features (no auth required)
+      responses:
+        '200':
+          description: List of membership tiers
+
+  /trainers:
+    get:
+      tags:
+        - Public
+      summary: Get trainers
+      description: Browse trainer profiles (no auth required)
+      parameters:
+        - name: available
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of trainers
