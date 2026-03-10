@@ -189,11 +189,11 @@ pip install -r requirements.txt
 
 ## License
 
-Academic project - All rights reserved
+Academic project - All rights reserved.
 
 ## Contact
 
-For questions: [saraabidhussain12@gmail.com] or [ammarakhan@gmail.com]
+For questions: [saraabidhussain12@gmail.com] or [anayafatima00008@gmail.com]
 
 ---
 
