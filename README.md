@@ -135,6 +135,27 @@ smart-gym-management/
 - GET `/api/v1/membership-tiers` - Pricing
 - GET `/api/v1/trainers` - Browse trainers
 
+### Trainers (requires trainer role)
+- GET `/api/v1/trainers/clients` - View assigned clients
+- GET `/api/v1/trainers/performance` - Performance metrics
+- GET `/api/v1/trainers/schedule` - Upcoming class schedule
+- GET/POST `/api/v1/trainers/workout-plans` - Manage workout plans
+- GET/POST `/api/v1/trainers/nutrition-plans` - Manage nutrition plans
+
+### Staff (requires staff role)
+- POST `/api/v1/staff/checkin` - Check in member
+- POST `/api/v1/staff/checkout` - Check out member
+- GET `/api/v1/staff/attendance/today` - Today's attendance
+- PUT `/api/v1/staff/lockers/<id>` - Assign/release locker
+- GET `/api/v1/staff/equipment` - View equipment status
+- PUT `/api/v1/staff/equipment/<id>` - Update equipment
+
+### Payments & Transactions
+- POST `/api/v1/payments/purchase-membership` - Buy membership (ACID)
+- GET `/api/v1/payments/history` - Payment history
+- POST `/api/v1/classes/book` - Book class (ACID)
+- DELETE `/api/v1/classes/cancel/<id>` - Cancel booking
+
 **Total:** 30+ endpoints
 
 ## User Roles
