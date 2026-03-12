@@ -2,30 +2,22 @@ openapi: 3.0.0
 info:
   title: Smart Gym Management API
   description: |
-    Complete REST API for Smart Gym & Fitness Center Management System.
+    REST API for our gym management system built as a database course project.
     
-    Features:
-    - JWT-based authentication
-    - Role-based access control (Member, Trainer, Staff, Admin)
-    - ACID-compliant transactions
-    - Real-time class booking with capacity management
-    - Comprehensive analytics and reporting
+    Main features:
+    - User authentication with JWT tokens
+    - Different dashboards for members, trainers, staff, and admins
+    - Class booking system with automatic waitlist
+    - Workout and nutrition tracking
+    - Revenue analytics and reporting
     
-    **Tech Stack:**
-    - Backend: Python Flask
-    - Database: PostgreSQL
-    - Auth: JWT + bcrypt
+    Built with Flask (Python) and PostgreSQL.
     
   version: 1.0.0
-  contact:
-    name: Smart Gym Team
-    email: admin@smartgym.com
 
 servers:
   - url: http://localhost:5000/api/v1
-    description: Development server
-  - url: https://api.smartgym.com/api/v1
-    description: Production server (when deployed)
+    description: Local development server
 
 tags:
   - name: Authentication
@@ -261,6 +253,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+      summary: Get current user info
+      description: Returns logged-in user's information (requires valid JWT)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User information retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      role:
+                        type: string
+                      phone:
+                        type: string
+        '401':
+          description: Token missing or invalid
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout (client-side token removal)
+      description: Since JWT is stateless, logout happens on client side by removing token
+      responses:
+        '200':
+          description: Logout acknowledged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    example: Logged out successfully. Please remove token from client.
 
   # ==================== MEMBERS ====================
   /members/dashboard:
@@ -752,3 +800,560 @@ paths:
       responses:
         '200':
           description: List of trainers
+
+  # ==================== TRAINERS ====================
+  /trainers/clients:
+    get:
+      tags:
+        - Trainers
+      summary: Get assigned clients
+      description: List all members with workout/nutrition plans from this trainer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of assigned clients
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  clients:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: integer
+                        full_name:
+                          type: string
+                        email:
+                          type: string
+                        membership_tier:
+                          type: string
+                        workout_plans:
+                          type: integer
+                        nutrition_plans:
+                          type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - trainer role required
+
+  /trainers/performance:
+    get:
+      tags:
+        - Trainers
+      summary: Get performance metrics
+      description: Returns data from trainer_performance_view
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Performance metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  performance:
+                    type: object
+                    properties:
+                      trainer_id:
+                        type: integer
+                      trainer_name:
+                        type: string
+                      total_clients:
+                        type: integer
+                      workout_plans_created:
+                        type: integer
+                      nutrition_plans_created:
+                        type: integer
+                      classes_scheduled:
+                        type: integer
+                      average_rating:
+                        type: string
+        '404':
+          description: Performance data not found
+
+  /trainers/schedule:
+    get:
+      tags:
+        - Trainers
+      summary: Get upcoming class schedule
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Upcoming schedules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  schedules:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        schedule_id:
+                          type: integer
+                        class_name:
+                          type: string
+                        schedule_date:
+                          type: string
+                        start_time:
+                          type: string
+                        spots_available:
+                          type: integer
+                        status:
+                          type: string
+
+  /trainers/workout-plans:
+    get:
+      tags:
+        - Trainers
+      summary: Get all workout plans
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of workout plans
+    post:
+      tags:
+        - Trainers
+      summary: Create workout plan
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - plan_name
+                - goal
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                plan_name:
+                  type: string
+                  example: Strength Training Plan
+                goal:
+                  type: string
+                  example: Build muscle mass
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Workout plan created
+        '400':
+          description: Missing required fields
+        '404':
+          description: Member not found
+
+  /trainers/nutrition-plans:
+    get:
+      tags:
+        - Trainers
+      summary: Get all nutrition plans
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of nutrition plans
+    post:
+      tags:
+        - Trainers
+      summary: Create nutrition plan
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - plan_name
+                - daily_calories
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                plan_name:
+                  type: string
+                  example: Weight Loss Diet
+                daily_calories:
+                  type: integer
+                  example: 2000
+                protein_grams:
+                  type: integer
+                  example: 150
+                carbs_grams:
+                  type: integer
+                  example: 200
+                fat_grams:
+                  type: integer
+                  example: 65
+      responses:
+        '201':
+          description: Nutrition plan created
+        '400':
+          description: Missing required fields
+        '404':
+          description: Member not found
+
+  # ==================== STAFF ====================
+  /staff/checkin:
+    post:
+      tags:
+        - Staff
+      summary: Check in a member
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - member_id
+              properties:
+                member_id:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Member checked in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  attendance_id:
+                    type: integer
+                  member:
+                    type: string
+                  membership_tier:
+                    type: string
+                  check_in_time:
+                    type: string
+        '403':
+          description: No active membership
+        '404':
+          description: Member not found
+        '409':
+          description: Already checked in
+
+  /staff/checkout:
+    post:
+      tags:
+        - Staff
+      summary: Check out a member
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - member_id
+              properties:
+                member_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: Member checked out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  member:
+                    type: string
+                  duration_minutes:
+                    type: number
+                  check_out_time:
+                    type: string
+        '404':
+          description: No active check-in found
+
+  /staff/attendance/today:
+    get:
+      tags:
+        - Staff
+      summary: Get today's attendance
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Today's attendance list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  date:
+                    type: string
+                  total_visits:
+                    type: integer
+                  currently_in:
+                    type: integer
+                  attendance:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        member_name:
+                          type: string
+                        check_in_time:
+                          type: string
+                        check_out_time:
+                          type: string
+                          nullable: true
+                        status:
+                          type: string
+                          enum: [present, left]
+
+  /staff/lockers/{locker_id}:
+    put:
+      tags:
+        - Staff
+      summary: Assign or release a locker
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: locker_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                  enum: [assign, release]
+                  example: assign
+                member_id:
+                  type: integer
+                  description: Required when action is assign
+                  example: 1
+      responses:
+        '200':
+          description: Locker updated successfully
+        '400':
+          description: Invalid action or missing member_id
+        '404':
+          description: Locker not found
+        '409':
+          description: Locker already occupied
+
+  /staff/equipment:
+    get:
+      tags:
+        - Staff
+      summary: Get all equipment
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Equipment list with summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  summary:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      available:
+                        type: integer
+                      in_use:
+                        type: integer
+                      maintenance:
+                        type: integer
+                      broken:
+                        type: integer
+                  equipment:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        equipment_id:
+                          type: integer
+                        equipment_name:
+                          type: string
+                        zone:
+                          type: string
+                        status:
+                          type: string
+                          enum: [available, in_use, maintenance, broken]
+
+  /staff/equipment/{equipment_id}:
+    put:
+      tags:
+        - Staff
+      summary: Update equipment status
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: equipment_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [available, in_use, maintenance, broken]
+                last_maintenance_date:
+                  type: string
+                  format: date
+                next_maintenance_due:
+                  type: string
+                  format: date
+                total_usage_hours:
+                  type: integer
+      responses:
+        '200':
+          description: Equipment updated
+        '400':
+          description: Invalid status or no fields to update
+        '404':
+          description: Equipment not found
+
+  # ==================== PAYMENTS & TRANSACTIONS ====================
+  /payments/purchase-membership:
+    post:
+      tags:
+        - Members
+      summary: Purchase membership (ACID Transaction)
+      description: |
+        Atomic transaction that creates membership, payment, and optionally assigns locker.
+        All steps succeed together or rollback on any failure.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tier_id
+                - payment_method
+              properties:
+                tier_id:
+                  type: integer
+                  example: 1
+                payment_method:
+                  type: string
+                  enum: [cash, credit_card, debit_card, online]
+                  example: credit_card
+      responses:
+        '201':
+          description: Membership purchased successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  transaction:
+                    type: object
+                    properties:
+                      membership_id:
+                        type: integer
+                      payment_id:
+                        type: integer
+                      locker_id:
+                        type: integer
+                        nullable: true
+        '400':
+          description: Missing tier_id or invalid payment method
+        '404':
+          description: Membership tier not found
+        '409':
+          description: Already has active membership
+
+  /payments/history:
+    get:
+      tags:
+        - Members
+      summary: Get payment history
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Payment history list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  payments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payment_id:
+                          type: integer
+                        amount:
+                          type: number
+                        payment_method:
+                          type: string
+                        payment_type:
+                          type: string
+                        status:
+                          type: string
+                        payment_date:
+                          type: string
