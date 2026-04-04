@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV '/mnt/c/Users/User/Desktop/smart_gym_and _fitness_project/Smart-Gym-Fitness-Center-Management-System/backend/venv'
+set -gx VIRTUAL_ENV /home/sara-abid/smart_gym_management/backend/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

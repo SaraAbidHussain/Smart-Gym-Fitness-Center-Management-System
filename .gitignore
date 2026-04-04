@@ -14,6 +14,7 @@ __pycache__/
 .Python
 env/
 venv/
+backend/venv/
 *.env
 .env.local
 # OS files
@@ -45,3 +46,5 @@ logs/
 dist/
 build/
 *.egg-info/
+
+node_modules/

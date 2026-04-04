@@ -1,0 +1,84 @@
+name: smart_gym_frontend
+description: Smart Gym Management System - Premium Frontend
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP & API
+  http: ^1.1.0
+  dio: ^5.4.0
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Storage
+  shared_preferences: ^2.2.2
+  
+  # Environment Variables
+  flutter_dotenv: ^5.1.0
+  
+  # Charts & Visualization
+  fl_chart: ^0.66.0
+  
+  # Animations
+  lottie: ^3.0.0
+  animations: ^2.0.11
+  flutter_animate: ^4.5.0
+  
+  # PDF Generation
+  pdf: ^3.10.7
+  printing: ^5.11.1
+  
+  # Date/Time
+  intl: ^0.19.0
+  timeago: ^3.6.0
+  
+  # Loading States
+  flutter_spinkit: ^5.2.0
+  shimmer: ^3.0.0
+  
+  # Icons
+  iconly: ^1.0.1
+  cupertino_icons: ^1.0.2
+  
+  # Image Handling
+  cached_network_image: ^3.3.1
+  
+  # UI Components
+  flutter_slidable: ^3.0.1
+  
+  # Notifications
+  fluttertoast: ^8.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Assets
+  assets:
+    - .env
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+  
+  # Fonts
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
