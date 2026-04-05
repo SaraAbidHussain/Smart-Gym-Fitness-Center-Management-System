@@ -19,7 +19,7 @@ WORKDIR /app
 COPY . .
 
 RUN flutter pub get
-RUN flutter build web --release --dart-define=API_BASE_URL=http://localhost:5000/api/v1
+RUN flutter build web --release --dart-define=API_BASE_URL=http://16.171.52.29:5000/api/v1
 
 FROM nginx:alpine
 COPY --from=build /app/build/web /usr/share/nginx/html
