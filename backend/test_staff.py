@@ -103,8 +103,8 @@ if r.status_code == 200:
         fail("S2.2 Missing summary or equipment list")
 
     summary = d.get("summary", {})
-    if "total" in summary and "operational" in summary:
-        ok(f"S2.3 Summary: total={summary['total']}, operational={summary['operational']}")
+    if "total" in summary and "available" in summary:
+        ok(f"S2.3 Summary: total={summary['total']}, operational={summary['available']}")
     else:
         fail("S2.3 Summary missing fields", str(summary))
 
@@ -148,7 +148,7 @@ if equipment_list:
     # S3.2 — Invalid status
     r = requests.put(f"{BASE_URL}/staff/equipment/{eq_id}",
                      headers={**headers, "Content-Type": "application/json"},
-                     json={"status": "broken"})
+                     json={"status": "flying"})
     if r.status_code == 400:
         ok("S3.2 Invalid status → 400 Bad Request")
     else:

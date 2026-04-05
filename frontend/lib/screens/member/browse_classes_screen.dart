@@ -4,9 +4,6 @@ import '../../config/api_config.dart';
 //import '../../services/auth_service.dart';
 //import '../../services/token_storage.dart';
 
-// ─────────────────────────────────────────────────────────────
-// THEME CONSTANTS (Royal Gold)
-// ─────────────────────────────────────────────────────────────
 class _C {
   static const gold = Color(0xFFD4AF37);
   static const lightGold = Color(0xFFE6C86E);
@@ -26,9 +23,6 @@ class _C {
   static const glassTint = Color(0x14D4AF37); // 8% opacity
 }
 
-// ─────────────────────────────────────────────────────────────
-// DATA MODELS
-// ─────────────────────────────────────────────────────────────
 class ClassSchedule {
   final int scheduleId;
   final String className;
@@ -78,9 +72,6 @@ class ClassSchedule {
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-// FILTER STATE
-// ─────────────────────────────────────────────────────────────
 enum DateFilter { all, today, tomorrow, thisWeek }
 
 enum SortOption { dateAsc, dateDesc, availability, price }
@@ -141,9 +132,6 @@ class FilterState {
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-// MAIN SCREEN
-// ─────────────────────────────────────────────────────────────
 class BrowseClassesScreen extends StatefulWidget {
   const BrowseClassesScreen({super.key});
 
@@ -198,7 +186,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     super.dispose();
   }
 
-  // ── DATA LOADING ──────────────────────────────────────────
   Future<void> _loadClasses() async {
     setState(() {
       _isLoading = true;
@@ -233,7 +220,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     }
   }
 
-  // ── DEMO DATA ─────────────────────────────────────────────
   List<ClassSchedule> _demoClasses() {
     final now = DateTime.now();
     return [
@@ -318,7 +304,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     ];
   }
 
-  // ── FILTER LOGIC ──────────────────────────────────────────
   void _applyFilters() {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -418,8 +403,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
       _filterAnimCtrl.reverse();
     }
   }
-
-  // ── BOOKING ───────────────────────────────────────────────
   Future<void> _bookClass(ClassSchedule cls) async {
   setState(() {
     _isBooking = true;
@@ -525,7 +508,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── FORMATTERS ────────────────────────────────────────────
   String _formatDateTime(DateTime dt) {
     final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final months = [
@@ -588,9 +570,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     return map[type] ?? Icons.sports_gymnastics;
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // BUILD
-  // ─────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -625,7 +604,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── APP BAR ───────────────────────────────────────────────
   Widget _buildAppBar() {
     return SliverAppBar(
       expandedHeight: 100,
@@ -699,7 +677,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── SEARCH BAR ────────────────────────────────────────────
   Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -742,7 +719,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── QUICK FILTERS (Date + Sort) ───────────────────────────
   Widget _buildQuickFilters() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -897,8 +873,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
       ),
     );
   }
-
-  // ── EXPANDED FILTER PANEL ─────────────────────────────────
   Widget _buildExpandedFilters() {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -1046,7 +1020,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── RESULTS HEADER ────────────────────────────────────────
   Widget _buildResultsHeader() {
     if (_isLoading) return const SizedBox.shrink();
     return Padding(
@@ -1098,7 +1071,6 @@ class _BrowseClassesScreenState extends State<BrowseClassesScreen>
     );
   }
 
-  // ── CLASS LIST ────────────────────────────────────────────
   Widget _buildClassList() {
     // Group by date
     final grouped = <String, List<ClassSchedule>>{};

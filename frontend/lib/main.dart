@@ -8,7 +8,6 @@ import 'screens/dashboard_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Load environment variables
   await dotenv.load(fileName: ".env");
   
   runApp(const SmartGymApp());
@@ -31,7 +30,6 @@ class SmartGymApp extends StatelessWidget {
   }
 }
 
-/// Splash Screen - Checks if user is logged in
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -49,33 +47,27 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuthStatus() async {
-    // Wait a bit for splash effect
     await Future.delayed(const Duration(seconds: 1));
 
     if (!mounted) return;
 
-    // Check if user is logged in
     final isLoggedIn = await _authService.isLoggedIn();
 
     if (isLoggedIn) {
-      // Get user role
       final role = await _authService.getUserRole();
       
       if (role != null) {
-        // Navigate to appropriate dashboard
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => DashboardRouter(role: role),
           ),
         );
       } else {
-        // No role found, go to login
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
       }
     } else {
-      // Not logged in, go to login
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );

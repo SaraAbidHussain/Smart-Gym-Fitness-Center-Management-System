@@ -30,7 +30,7 @@ def header(title):
 
 def test(label, expected, resp):
     got  = resp.status_code
-    icon = "✅" if got == expected else "❌"
+    icon = "" if got == expected else "❌"
     print(f"\n{icon} {label}")
     print(f"   Expected: {expected} | Got: {got}")
     print(f"   {pretty(resp)}")
@@ -42,7 +42,7 @@ def cleanup():
     Removes test data created by previous runs.
     Keeps all original seed data safe.
     """
-    print("\n🧹 Auto-cleaning test data from previous runs...")
+    print("\n Auto-cleaning test data from previous runs...")
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         conn.autocommit = True
@@ -74,21 +74,21 @@ def cleanup():
                 WHERE current_user_id = %s
             """, (test_member_id,))
         else:
-            print("   ⚠️  test.member@gym.com not found — run test_auth.py first!")
+            print("   test.member@gym.com not found — run test_auth.py first!")
 
         # 4. Remove ahmed's waitlist entries on schedule 19
         cur.execute("DELETE FROM class_bookings WHERE schedule_id = 19 AND user_id = 1")
 
         cur.close()
         conn.close()
-        print("✅ Cleanup done — starting fresh!\n")
+        print(" Cleanup done — starting fresh!\n")
 
     except Exception as e:
-        print(f"⚠️  Cleanup warning (tests will still run): {e}\n")
+        print(f"  Cleanup warning (tests will still run): {e}\n")
 
 # ─────────────────────────────────────────────────────────────────────────────
-print("\n🏋️  SMART GYM — STEP 4 TRANSACTION TESTS")
-print("⚠️  Make sure you ran test_auth.py first to create test.member@gym.com")
+print("\n SMART GYM — STEP 4 TRANSACTION TESTS")
+print(" Make sure you ran test_auth.py first to create test.member@gym.com")
 input("Make sure Flask is running (python run.py). Press Enter...\n")
 
 cleanup()
@@ -101,20 +101,20 @@ r = requests.post(f"{BASE_URL}/api/v1/auth/login",
                   json={"email": "ahmed.khan@gmail.com", "password": "gym123"})
 token1 = r.json().get('token')
 if not token1:
-    print(f"❌ Login failed: {pretty(r)}")
+    print(f" Login failed: {pretty(r)}")
     exit()
 h1 = {"Authorization": f"Bearer {token1}"}
-print(f"✅ Member 1 (ahmed.khan) logged in")
+print(f" Member 1 (ahmed.khan) logged in")
 
 # Member 2 — test.member (created by test_auth.py, password: SecurePass123, NO membership)
 r = requests.post(f"{BASE_URL}/api/v1/auth/login",
                   json={"email": "test.member@gym.com", "password": "SecurePass123"})
 token2 = r.json().get('token')
 if not token2:
-    print(f"❌ Login failed for test.member — run test_auth.py first!")
+    print(f" Login failed for test.member — run test_auth.py first!")
     exit()
 h2 = {"Authorization": f"Bearer {token2}"}
-print(f"✅ Member 2 (test.member) logged in")
+print(f" Member 2 (test.member) logged in")
 
 # ═════════════════════════════════════════════════════════════════════════════
 header("SCENARIO 1: MEMBERSHIP PURCHASE TRANSACTION")
@@ -145,16 +145,16 @@ test("T05 | Member 1 already has membership → 409",
      requests.post(f"{BASE_URL}/api/v1/payments/purchase-membership",
                    json={"tier_id": 1, "payment_method": "cash"}, headers=h1))
 
-print("\n📋 T06 | Member 2 (test.member) purchases Basic membership...")
+print("\n T06 | Member 2 (test.member) purchases Basic membership...")
 r = requests.post(f"{BASE_URL}/api/v1/payments/purchase-membership",
                   json={"tier_id": 1, "payment_method": "credit_card"}, headers=h2)
 t06_ok = test("T06 | Purchase Basic membership → 201", 201, r)
 if t06_ok:
     t = r.json()['transaction']
-    print(f"   💳 Payment ID  : {t['payment']['payment_id']}")
-    print(f"   🎫 Membership  : {t['membership']['membership_id']} ({t['membership']['tier']})")
-    print(f"   📅 Valid until : {t['membership']['end_date']}")
-    print(f"   🔐 Locker      : {t['locker']} (None for Basic — correct)")
+    print(f"    Payment ID  : {t['payment']['payment_id']}")
+    print(f"    Membership  : {t['membership']['membership_id']} ({t['membership']['tier']})")
+    print(f"    Valid until : {t['membership']['end_date']}")
+    print(f"    Locker      : {t['locker']} (None for Basic — correct)")
 
 test("T07 | Duplicate membership → 409",
      409,
@@ -169,13 +169,13 @@ test("T08 | Payment history → 200",
 header("SCENARIO 2: CLASS BOOKING TRANSACTION")
 print("Testing: SELECT FOR UPDATE, trigger integration, waitlist logic\n")
 
-print("📋 Fetching class schedules...")
+print(" Fetching class schedules...")
 r = requests.get(f"{BASE_URL}/api/v1/classes/schedule")
 schedules = r.json().get('schedules', [])
 print(f"   Found {len(schedules)} upcoming schedules")
 
 if not schedules:
-    print("❌ No schedules found.")
+    print(" No schedules found.")
     exit()
 
 open_sched = [s for s in schedules if s.get('spots_available', 0) > 0]
@@ -209,13 +209,13 @@ if admin_token:
 booking_id = None
 if open_sched:
     s = open_sched[0]
-    print(f"\n📋 T13 | Booking: {s['class_name']} on {s['schedule_date']} ({s['spots_available']} spots)")
+    print(f"\n T13 | Booking: {s['class_name']} on {s['schedule_date']} ({s['spots_available']} spots)")
     r = requests.post(f"{BASE_URL}/api/v1/classes/book",
                       json={"schedule_id": s['schedule_id']}, headers=h1)
     t13_ok = test("T13 | Confirmed booking → 201", 201, r)
     if t13_ok:
         booking_id = r.json()['booking']['booking_id']
-        print(f"   📋 Booking ID : {booking_id}")
+        print(f"   Booking ID : {booking_id}")
         print(f"   Status        : {r.json()['booking']['status']}")
         print(f"   Spots left    : {r.json()['booking'].get('spots_remaining')}")
 
@@ -227,14 +227,14 @@ if open_sched:
 
 if full_sched:
     s = full_sched[0]
-    print(f"\n📋 T15 | Full class: {s['class_name']} (0 spots)")
+    print(f"\n T15 | Full class: {s['class_name']} (0 spots)")
     r = requests.post(f"{BASE_URL}/api/v1/classes/book",
                       json={"schedule_id": s['schedule_id']}, headers=h1)
     t15_ok = test("T15 | Full class → waitlist → 201", 201, r)
     if t15_ok:
         print(f"   Waitlist position: {r.json()['booking'].get('position_in_waitlist')}")
 else:
-    print("\n⚠️  T15 | No full classes found")
+    print("\n  T15 | No full classes found")
 
 test("T16 | Invalid schedule_id=99999 → 404",
      404,

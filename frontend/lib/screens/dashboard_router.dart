@@ -4,8 +4,6 @@ import 'admin/admin_dashboard.dart';
 import 'trainer/trainer_dashboard.dart';
 import 'staff/staff_dashboard.dart';
 
-/// Dashboard Router
-/// Routes users to appropriate dashboard based on their role
 class DashboardRouter extends StatelessWidget {
   final String role;
 

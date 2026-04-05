@@ -136,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       
                       const SizedBox(height: 48),
                       
-                      // Email Field
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -179,7 +178,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Password Field
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,

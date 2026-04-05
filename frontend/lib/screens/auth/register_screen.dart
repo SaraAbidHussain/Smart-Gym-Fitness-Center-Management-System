@@ -63,7 +63,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
       
-      // Navigate back to login
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
@@ -110,7 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Title
                       const Text(
                         'Create Account',
                         style: TextStyle(
@@ -129,7 +127,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 32),
                       
-                      // First Name & Last Name Row
                       Row(
                         children: [
                           Expanded(
@@ -156,7 +153,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Email
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -172,7 +168,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Phone
                       TextFormField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
@@ -183,7 +178,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Password
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
@@ -204,7 +198,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Confirm Password
                       TextFormField(
                         controller: _confirmPasswordController,
                         obscureText: _obscureConfirmPassword,
@@ -224,7 +217,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Role Selection
                       DropdownButtonFormField<String>(
                         value: _selectedRole,
                         dropdownColor: Colors.grey.shade900,
@@ -241,7 +233,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Gender Selection
                       DropdownButtonFormField<String>(
                         value: _selectedGender,
                         dropdownColor: Colors.grey.shade900,
@@ -258,7 +249,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 32),
                       
-                      // Register Button
                       ElevatedButton(
                         onPressed: _isLoading ? null : _handleRegister,
                         style: ElevatedButton.styleFrom(
@@ -281,7 +271,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       
                       const SizedBox(height: 16),
                       
-                      // Login Link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

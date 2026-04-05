@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Royal Gold - Luxury Gym Design System
-/// Premium, Exclusive, High-End Aesthetic
+
 class AppColors {
-  // Primary - Royal Gold
-  static const primary = Color(0xFFD4AF37);         // Classic Gold
-  static const primaryLight = Color(0xFFE6C86E);    // Light Gold
-  static const primaryDark = Color(0xFFB8942A);     // Dark Gold
+
+  static const primary = Color(0xFFD4AF37);         
+  static const primaryLight = Color(0xFFE6C86E);    
+  static const primaryDark = Color(0xFFB8942A);     
   
-  // Accent - Deep Navy/Slate
-  static const accent = Color(0xFF1E293B);          // Deep Slate
-  static const accentLight = Color(0xFF334155);     // Lighter Slate
-  static const accentDark = Color(0xFF0F172A);      // Almost Black Navy
+ 
+  static const accent = Color(0xFF1E293B);         
+  static const accentLight = Color(0xFF334155);    
+  static const accentDark = Color(0xFF0F172A);     
   
-  // Bronze/Copper (secondary accent)
-  static const bronze = Color(0xFFCD7F32);          // Bronze
-  static const copper = Color(0xFFB87333);          // Copper
+ 
+  static const bronze = Color(0xFFCD7F32);         
+  static const copper = Color(0xFFB87333);         
   
-  // Backgrounds - Dark Luxury
-  static const bgPrimary = Color(0xFF0A0A0A);       // Rich Black
-  static const bgSecondary = Color(0xFF141414);     // Dark Grey
-  static const bgTertiary = Color(0xFF1F1F1F);      // Card Background
-  static const bgElevated = Color(0xFF2A2A2A);      // Elevated Cards
+ 
+  static const bgPrimary = Color(0xFF0A0A0A);      
+  static const bgSecondary = Color(0xFF141414);    
+  static const bgTertiary = Color(0xFF1F1F1F);     
+  static const bgElevated = Color(0xFF2A2A2A);     
   
-  // Glass Effect (Luxury)
-  static const glass = Color(0x15D4AF37);           // 8% Gold tint
-  static const glassBorder = Color(0x40D4AF37);     // 25% Gold border
+
+  static const glass = Color(0x15D4AF37);          
+  static const glassBorder = Color(0x40D4AF37);    
   
-  // Text Colors
-  static const textPrimary = Color(0xFFFAFAFA);     // Almost White
-  static const textSecondary = Color(0xFFD1D5DB);   // Light Grey
-  static const textTertiary = Color(0xFF9CA3AF);    // Medium Grey
-  static const textMuted = Color(0xFF6B7280);       // Muted Grey
+
+  static const textPrimary = Color(0xFFFAFAFA);    
+  static const textSecondary = Color(0xFFD1D5DB);   
+  static const textTertiary = Color(0xFF9CA3AF);    
+  static const textMuted = Color(0xFF6B7280);       
   
-  // Status Colors (Luxurious versions)
-  static const success = Color(0xFF10B981);         // Emerald
-  static const warning = Color(0xFFF59E0B);         // Amber
-  static const error = Color(0xFFEF4444);           // Red
-  static const info = Color(0xFF3B82F6);            // Blue
+ 
+  static const success = Color(0xFF10B981);      
+  static const warning = Color(0xFFF59E0B);      
+  static const error = Color(0xFFEF4444);       
+  static const info = Color(0xFF3B82F6);          
   
-  // Membership Tier Colors
-  static const tierBasic = Color(0xFF6B7280);       // Grey
-  static const tierPremium = Color(0xFFD4AF37);     // Gold
-  static const tierVIP = Color(0xFFB8860B);         // Dark Golden Rod
-  
-  // Gradients
+
+  static const tierBasic = Color(0xFF6B7280);      
+  static const tierPremium = Color(0xFFD4AF37);   
+  static const tierVIP = Color(0xFFB8860B);      
+
   static const goldGradient = LinearGradient(
     colors: [Color(0xFFD4AF37), Color(0xFFB8942A), Color(0xFF8B6914)],
     begin: Alignment.topLeft,
@@ -68,11 +66,10 @@ class AppColors {
   static const shimmerHighlight = Color(0xFF2A2A2A);
 }
 
-/// Typography System
 class AppTypography {
   static const String fontFamily = 'Poppins';
   
-  // Headings
+
   static const h1 = TextStyle(
     fontFamily: fontFamily,
     fontSize: 32,
@@ -111,7 +108,7 @@ class AppTypography {
     color: AppColors.textPrimary,
   );
   
-  // Body text
+
   static const bodyLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,
@@ -133,7 +130,7 @@ class AppTypography {
     color: AppColors.textTertiary,
   );
   
-  // Labels
+
   static const labelLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 14,
@@ -159,7 +156,7 @@ class AppTypography {
   );
 }
 
-/// Spacing System
+
 class AppSpacing {
   static const xs = 4.0;
   static const sm = 8.0;
@@ -169,7 +166,7 @@ class AppSpacing {
   static const xxl = 48.0;
 }
 
-/// Border Radius
+
 class AppRadius {
   static const sm = 8.0;
   static const md = 12.0;
@@ -178,7 +175,7 @@ class AppRadius {
   static const full = 999.0;
 }
 
-/// Shadows
+
 class AppShadows {
   static const small = BoxShadow(
     color: Color(0x10000000),
@@ -198,7 +195,7 @@ class AppShadows {
     offset: Offset(0, 8),
   );
   
-  // Gold glow effect
+
   static const goldGlow = BoxShadow(
     color: Color(0x40D4AF37),
     blurRadius: 20,

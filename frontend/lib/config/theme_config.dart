@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_theme.dart';
 
-/// App Theme Configuration - Royal Gold Luxury Theme
 class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
@@ -9,7 +8,7 @@ class AppTheme {
       brightness: Brightness.dark,
       fontFamily: AppTypography.fontFamily,
 
-      // Color Scheme
+
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.accent,
@@ -23,10 +22,10 @@ class AppTheme {
         onError: AppColors.textPrimary,
       ),
 
-      // Scaffold
+
       scaffoldBackgroundColor: AppColors.bgPrimary,
 
-      // AppBar
+
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.bgPrimary,
         surfaceTintColor: Colors.transparent,
@@ -36,7 +35,7 @@ class AppTheme {
         iconTheme: IconThemeData(color: AppColors.primary),
       ),
 
-      // Card
+   
       cardTheme: CardThemeData(
         color: AppColors.bgTertiary,
         elevation: 0,
@@ -50,7 +49,6 @@ class AppTheme {
         ),
       ),
 
-      // Elevated Button
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
@@ -67,7 +65,7 @@ class AppTheme {
         ),
       ),
 
-      // Text Button
+
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -75,7 +73,6 @@ class AppTheme {
         ),
       ),
 
-      // Outlined Button
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -90,7 +87,6 @@ class AppTheme {
         ),
       ),
 
-      // Input Decoration
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.bgSecondary,
@@ -124,7 +120,7 @@ class AppTheme {
         suffixIconColor: AppColors.textMuted,
       ),
 
-      // Dialog
+
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.bgTertiary,
         surfaceTintColor: Colors.transparent,
@@ -135,7 +131,7 @@ class AppTheme {
         titleTextStyle: AppTypography.h4,
       ),
 
-      // Bottom Sheet
+
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.bgTertiary,
         surfaceTintColor: Colors.transparent,
@@ -146,32 +142,30 @@ class AppTheme {
         ),
       ),
 
-      // Divider
+  
       dividerTheme: const DividerThemeData(
         color: AppColors.glassBorder,
         thickness: 1,
         space: AppSpacing.lg,
       ),
 
-      // Icon Theme
       iconTheme: const IconThemeData(
         color: AppColors.textSecondary,
         size: 24,
       ),
 
-      // Floating Action Button
+
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.accentDark,
         elevation: 4,
       ),
 
-      // Progress Indicator
+ 
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
       ),
 
-      // Switch
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return AppColors.primary;
@@ -185,7 +179,7 @@ class AppTheme {
         }),
       ),
 
-      // Checkbox
+
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return AppColors.primary;
@@ -195,7 +189,6 @@ class AppTheme {
         side: const BorderSide(color: AppColors.glassBorder, width: 1.5),
       ),
 
-      // Radio
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) return AppColors.primary;
@@ -203,7 +196,7 @@ class AppTheme {
         }),
       ),
 
-      // Snackbar
+
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.bgElevated,
         contentTextStyle: AppTypography.bodyMedium,
@@ -214,7 +207,7 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
 
-      // ListTile
+
       listTileTheme: const ListTileThemeData(
         tileColor: Colors.transparent,
         iconColor: AppColors.textSecondary,
@@ -225,7 +218,6 @@ class AppTheme {
         ),
       ),
 
-      // Tab Bar
       tabBarTheme: const TabBarThemeData(
         labelColor: AppColors.primary,
         unselectedLabelColor: AppColors.textMuted,
@@ -234,7 +226,6 @@ class AppTheme {
         unselectedLabelStyle: AppTypography.labelMedium,
       ),
 
-      // Chip
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.bgElevated,
         selectedColor: AppColors.primary.withOpacity(0.2),
@@ -245,7 +236,6 @@ class AppTheme {
         ),
       ),
 
-      // Text Theme
       textTheme: const TextTheme(
         displayLarge: AppTypography.h1,
         displayMedium: AppTypography.h2,

@@ -11,13 +11,11 @@ class ApiConfig {
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
   
-  // ==================== AUTH ENDPOINTS ====================
   static const String register = '/auth/register';
   static const String login = '/auth/login';
   static const String logout = '/auth/logout';
   static const String me = '/auth/me';
   
-  // ==================== MEMBER ENDPOINTS ====================
   static const String memberDashboard = '/members/dashboard';
   static const String memberMembership = '/members/membership';
   static const String memberBookings = '/members/bookings';
@@ -26,7 +24,6 @@ class ApiConfig {
   static const String memberWorkouts = '/members/workouts';
   static const String memberProfile = '/members/profile';
   
-  // ==================== ADMIN ENDPOINTS ====================
   static const String adminUsers = '/admin/users';
   static String adminUser(int userId) => '/admin/users/$userId';
   static const String adminRevenue = '/admin/revenue';
@@ -34,14 +31,12 @@ class ApiConfig {
   static const String adminMemberships = '/admin/memberships';
   static const String adminEquipmentHealth = '/admin/equipment-health';
   
-  // ==================== TRAINER ENDPOINTS ====================
   static const String trainerClients = '/trainers/clients';
   static const String trainerPerformance = '/trainers/performance';
   static const String trainerSchedule = '/trainers/schedule';
   static const String trainerWorkoutPlans = '/trainers/workout-plans';
   static const String trainerNutritionPlans = '/trainers/nutrition-plans';
   
-  // ==================== STAFF ENDPOINTS ====================
   static const String staffCheckin = '/staff/checkin';
   static const String staffCheckout = '/staff/checkout';
   static const String staffAttendanceToday = '/staff/attendance/today';
@@ -49,17 +44,14 @@ class ApiConfig {
   static const String staffEquipment = '/staff/equipment';
   static String staffEquipmentUpdate(int equipmentId) => '/staff/equipment/$equipmentId';
   
-  // ==================== PUBLIC ENDPOINTS ====================
   static const String classes = '/classes';
   static const String classSchedule = '/classes/schedule';
   static const String membershipTiers = '/membership-tiers';
   static const String trainers = '/trainers';
   
-  // ==================== PAYMENT ENDPOINTS ====================
   static const String purchaseMembership = '/payments/purchase-membership';
   static const String paymentHistory = '/payments/history';
   
-  // ==================== HELPER METHODS ====================
   
   /// Get full URL for an endpoint
   static String url(String endpoint) => '$baseUrl$endpoint';

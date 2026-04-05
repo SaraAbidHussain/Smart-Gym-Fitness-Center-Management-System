@@ -5,9 +5,6 @@ import '../../config/api_config.dart';
 import '../../services/token_storage.dart';
 import '../auth/login_screen.dart';
 
-// ─────────────────────────────────────────────────────────────
-// THEME CONSTANTS
-// ─────────────────────────────────────────────────────────────
 class _C {
   static const gold = Color(0xFFD4AF37);
   static const darkGold = Color(0xFFB8942A);
@@ -185,9 +182,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     } catch (_) {}
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // BUILD
-  // ─────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,7 +208,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── APP BAR ───────────────────────────────────────────────
   Widget _buildAppBar() {
     return SliverAppBar(
       expandedHeight: 140,
@@ -284,7 +277,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── TAB BAR ───────────────────────────────────────────────
   Widget _buildTabBar() {
     return Container(
       color: _C.bgPrimary,
@@ -303,7 +295,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── CHECK-IN TAB ──────────────────────────────────────────
   Widget _buildCheckinTab() {
     final checkedInCount =
         _attendance.where((a) => a['check_out_time'] == null).length;
@@ -440,7 +431,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── ATTENDANCE TAB ────────────────────────────────────────
   Widget _buildAttendanceTab() {
     return RefreshIndicator(
       color: _C.gold,
@@ -460,7 +450,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── EQUIPMENT TAB ─────────────────────────────────────────
   Widget _buildEquipmentTab() {
     final operational =
         _equipment.where((e) => e['status'] == 'operational').length;
@@ -504,7 +493,6 @@ class _StaffDashboardState extends State<StaffDashboard>
     );
   }
 
-  // ── WIDGETS ───────────────────────────────────────────────
   Widget _miniStat(
       String label, String value, IconData icon, Color color) {
     return Container(
