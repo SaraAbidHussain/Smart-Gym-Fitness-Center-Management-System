@@ -1,4 +1,4 @@
-# 🏋️ Smart Gym & Fitness Center Management System
+# Smart Gym & Fitness Center Management System
 
 **Group:** [14]  
 **Course:** Advanced Database Management | 4th Semester
@@ -10,7 +10,7 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ---
 
-## 👥 Development Team
+##  Development Team
 
 | Member | Email |
 |--------|-------|
@@ -19,7 +19,7 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ---
 
-## 🚀 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -39,7 +39,7 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -94,9 +94,7 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 - **Timestamping** — `created_at` (set on insert) and `updated_at` (auto-updated by trigger) on all major tables
 
-## 📸 UI Examples
-
-> **Max 3 screenshots shown chosen to demonstrate the most important flows.**
+##  UI Examples
 
 ---
 
@@ -132,7 +130,7 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ---
 
-## 🛠️ Setup & Installation
+##  Setup & Installation
 
 ### Prerequisites
 
@@ -146,25 +144,20 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ---
 
-### Option A — Docker Setup *(Recommended, no installs needed)*
+### Option A : Docker Setup *(Recommended, no installs needed)*
 
 ```bash
-# 1. Clone
 git clone https://github.com/SaraAbidHussain/Smart-Gym-Fitness-Center-Management-System.git
 cd Smart-Gym-Fitness-Center-Management-System
 
-# 2. Create root .env (used by docker-compose for PostgreSQL)
 cp .env.example .env
-nano .env   # fill in values — see .env Variables section below
+nano .env   # fill in values : see .env Variables section below
 
-# 3. Create backend .env
 cp backend/.env.example backend/.env
-nano backend/.env   # fill in values — see .env Variables section below
+nano backend/.env   # fill in values : see .env Variables section below
 
-# 4. Start all 3 containers (db + backend + frontend)
 docker-compose up -d
 
-# 5. Verify all running
 docker-compose ps
 ```
 
@@ -173,16 +166,14 @@ docker-compose ps
 - Backend API: http://localhost:5000/api/v1
 
 ```bash
-# Stop containers
 docker-compose down
 
-# Stop and delete database volume (full reset)
 docker-compose down -v
 ```
 
 ---
 
-### Option B — Manual Setup
+### Option B : Manual Setup
 
 **Step 1 — Clone**
 ```bash
@@ -197,9 +188,9 @@ sudo -u postgres psql
 ```sql
 CREATE DATABASE smart_gym;
 \c smart_gym
-\i database/schema.sql      -- creates all 15 tables, triggers, views, indexes
-\i database/seed.sql        -- inserts 240+ test records
-\i database/performance.sql -- creates performance indexes
+\i database/schema.sql      
+\i database/seed.sql       
+\i database/performance.sql 
 \q
 ```
 
@@ -210,7 +201,7 @@ python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env
-nano .env                       # fill in values — see .env Variables section
+nano .env                       
 python run.py
 ```
 Server starts at: `http://localhost:5000`
@@ -218,7 +209,6 @@ Server starts at: `http://localhost:5000`
 Quick test:
 ```bash
 curl http://localhost:5000/api/v1/membership-tiers
-# Should return JSON list of tiers
 ```
 
 **Step 4 — Frontend**
@@ -296,7 +286,7 @@ chmod +x setup.sh
 
 ---
 
-## 👤 User Roles
+##  User Roles
 
 ### Member
 **Can:** View personal stats, browse and book classes, cancel bookings, log workouts, view workout history, check membership status, purchase membership (ACID transaction), view payment history, update profile.  
@@ -358,7 +348,7 @@ chmod +x setup.sh
 
 ---
 
-## 🔄 Transaction Scenarios
+##  Transaction Scenarios
 
 ### Transaction 1 — Membership Purchase
 **Trigger:** Member selects a tier and payment method on the Purchase Membership screen and taps "Complete Purchase."
@@ -403,7 +393,7 @@ chmod +x setup.sh
 
 ---
 
-## 🔒 ACID Compliance
+##  ACID Compliance
 
 | Property | How It's Implemented |
 |----------|---------------------|
@@ -414,7 +404,7 @@ chmod +x setup.sh
 
 ---
 
-## ⚡ Indexing & Performance
+##  Indexing & Performance
 
 Three strategic indexes are created in `database/performance.sql`:
 
@@ -441,7 +431,7 @@ CREATE INDEX idx_memberships_user_status ON memberships(user_id, status, end_dat
 
 ---
 
-## 🗄️ Database Design
+##  Database Design
 
 - **15 normalized tables** (3NF compliant): users, memberships, membership_tiers, classes, class_schedules, class_bookings, workout_logs, payments, lockers, equipment, attendance, trainers, workout_plans, nutrition_plans, payments
 - **3 analytical views**: `member_dashboard_view`, `trainer_performance_view`, `admin_revenue_view`
@@ -454,7 +444,7 @@ CREATE INDEX idx_memberships_user_status ON memberships(user_id, status, end_dat
 
 ---
 
-## 🐳 Docker Setup
+##  Docker Setup
 
 ### Container Architecture
 ```
@@ -474,7 +464,7 @@ Using pre-built images means `docker-compose up -d` completes in ~30 seconds ins
 
 ---
 
-## ☁️ AWS EC2 Deployment
+##  AWS EC2 Deployment
 
 - **Instance:** t3.micro, Ubuntu 22.04 LTS, eu-north-1
 - **Live URL:** http://16.171.52.29:8080
@@ -512,7 +502,7 @@ docker-compose up -d
 
 ---
 
-## 📡 API Reference
+##  API Reference
 
 All protected routes require `Authorization: Bearer <token>` header. Full schemas in `swagger.yaml`.
 
@@ -583,7 +573,7 @@ All protected routes require `Authorization: Bearer <token>` header. Full schema
 
 ---
 
-## 🧪 API Quick Test
+##  API Quick Test
 
 ```bash
 # Register
@@ -606,7 +596,7 @@ curl http://localhost:5000/api/v1/classes/schedule
 
 ---
 
-## 🐛 Common Errors & Fixes
+##  Common Errors & Fixes
 
 | Error | Fix |
 |-------|-----|
@@ -623,7 +613,7 @@ curl http://localhost:5000/api/v1/classes/schedule
 
 ---
 
-## ⚠️ Known Issues & Limitations
+##  Known Issues & Limitations
 
 **Trainer Client List Empty for New Trainers**  
 `GET /trainers/clients` only returns members who already have at least one plan from that trainer. A newly registered trainer with no plans sees an empty list. This is a schema design constraint — the client relationship is derived from plan assignments, not a direct trainer-member link. Use `coach.ali@smartgym.com` for reliable testing.
@@ -646,7 +636,7 @@ EC2 assigns a new public IP every stop/start cycle. Allocate an Elastic IP in AW
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Smart-Gym-Fitness-Center-Management-System/
@@ -711,6 +701,6 @@ Smart-Gym-Fitness-Center-Management-System/
 
 ---
 
-## 📄 License
+##  License
 
 Academic project — All rights reserved.
