@@ -293,37 +293,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 16),
                       
                       // Test Credentials (Remove in production!)
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade900.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.blue.shade700.withOpacity(0.5),
-                          ),
-                        ),
-                        // child: Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     const Text(
-                        //       '🧪 Test Credentials:',
-                        //       style: TextStyle(
-                        //         color: Colors.blue,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 12,
-                        //       ),
-                        //     ),
-                        //     const SizedBox(height: 4),
-                        //     Text(
-                        //       'Member: test@gym.com / Pass1234\nAdmin: admin@gym.com / AdminPass123',
-                        //       style: TextStyle(
-                        //         color: Colors.grey.shade300,
-                        //         fontSize: 11,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.all(12),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.blue.shade900.withOpacity(0.3),
+                      //     borderRadius: BorderRadius.circular(8),
+                      //     border: Border.all(
+                      //       color: Colors.blue.shade700.withOpacity(0.5),
+                      //     ),
+                      //   ),
+                      //   // child: Column(
+                      //   //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   //   children: [
+                      //   //     const Text(
+                      //   //       '🧪 Test Credentials:',
+                      //   //       style: TextStyle(
+                      //   //         color: Colors.blue,
+                      //   //         fontWeight: FontWeight.bold,
+                      //   //         fontSize: 12,
+                      //   //       ),
+                      //   //     ),
+                      //   //     const SizedBox(height: 4),
+                      //   //     Text(
+                      //   //       'Member: test@gym.com / Pass1234\nAdmin: admin@gym.com / AdminPass123',
+                      //   //       style: TextStyle(
+                      //   //         color: Colors.grey.shade300,
+                      //   //         fontSize: 11,
+                      //   //       ),
+                      //   //     ),
+                      //   //   ],
+                      //   // ),
+                      // ),
                     ],
                   ),
                 ),

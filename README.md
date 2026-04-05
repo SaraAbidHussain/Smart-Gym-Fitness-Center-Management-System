@@ -96,12 +96,14 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ## 📸 UI Examples
 
-> **Max 3 screenshots shown — chosen to demonstrate the most important flows.**
+> **Max 3 screenshots shown chosen to demonstrate the most important flows.**
 
 ---
 
 ### 1. Login Screen
-![Login Screen](docs/screenshots/login.png)
+![Login Screen](docs/screenshots/login_dashboard.png)
+![Login Screen](docs/screenshots/login_dashboard2.png)
+
 
 **What it does:** Single login form for all 4 roles. The backend determines the role from the database and returns it in the JWT payload. The Flutter `DashboardRouter` reads the role and navigates to the correct dashboard automatically — no separate login page per role.
 
@@ -111,6 +113,8 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 
 ### 2. Member Dashboard
 ![Member Dashboard](docs/screenshots/member_dashboard.png)
+![Member Dashboard](docs/screenshots/member_dashboard2.png)
+
 
 **What it does:** Shows the logged-in member's personal stats (total visits, classes booked, calories burned, workout logs), their active membership tier and expiry, and a quick-action grid to navigate to all member features. Uses shimmer skeleton loading while data fetches.
 
@@ -119,7 +123,8 @@ A full-stack, production-deployed gym management platform. The system digitizes 
 ---
 
 ### 3. Admin Analytics Dashboard
-![Admin Dashboard](docs/screenshots/admin_dashboard.png)
+![Admin Dashboard](docs/screenshots/admin.png)
+
 
 **What it does:** Shows a pie chart of user distribution by role, a bar chart of revenue breakdown, a stats grid (total users, active members, schedules, revenue), and a full user list with role badges and active/inactive indicators.
 
