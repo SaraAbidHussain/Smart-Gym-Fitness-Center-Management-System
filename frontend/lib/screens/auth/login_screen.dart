@@ -302,27 +302,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.blue.shade700.withOpacity(0.5),
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '🧪 Test Credentials:',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Member: test@gym.com / Pass1234\nAdmin: admin@gym.com / AdminPass123',
-                              style: TextStyle(
-                                color: Colors.grey.shade300,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // child: Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     const Text(
+                        //       '🧪 Test Credentials:',
+                        //       style: TextStyle(
+                        //         color: Colors.blue,
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 12,
+                        //       ),
+                        //     ),
+                        //     const SizedBox(height: 4),
+                        //     Text(
+                        //       'Member: test@gym.com / Pass1234\nAdmin: admin@gym.com / AdminPass123',
+                        //       style: TextStyle(
+                        //         color: Colors.grey.shade300,
+                        //         fontSize: 11,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ),
                     ],
                   ),
