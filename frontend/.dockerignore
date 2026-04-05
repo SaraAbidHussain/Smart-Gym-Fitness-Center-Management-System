@@ -1,0 +1,9 @@
+.env
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+.git
+.gitignore
+*.md
+test/
