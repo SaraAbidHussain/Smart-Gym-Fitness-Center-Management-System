@@ -1,6 +1,6 @@
 # Smart Gym & Fitness Center Management System
 
-**Group:** [14]  
+**Group:** [15]  
 **Course:** Advanced Database Management | 4th Semester
 
 A full-stack, production-deployed gym management platform. The system digitizes gym operations that are typically scattered across spreadsheets and manual processes — members book classes online, trainers manage client plans, staff track attendance and equipment, and admins see real-time analytics and revenue. Built specifically to demonstrate real-world database concepts: ACID transactions, triggers, views, indexing, and role-based access control not as theory, but as working, deployed code.
